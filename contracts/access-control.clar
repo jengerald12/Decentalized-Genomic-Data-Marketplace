@@ -1,36 +1,63 @@
-;; Access Control Contract
+;; Research Proposal Contract
 
 ;; Constants
 (define-constant CONTRACT_OWNER tx-sender)
 (define-constant ERR_NOT_AUTHORIZED (err u401))
 (define-constant ERR_NOT_FOUND (err u404))
+(define-constant ERR_INVALID_STATUS (err u400))
 
 ;; Data Maps
-(define-map access-permissions
-  { data-owner: principal, accessor: principal }
-  { has-access: bool }
+(define-map research-proposals
+  { proposal-id: uint }
+  {
+    researcher: principal,
+    title: (string-ascii 100),
+    description: (string-ascii 500),
+    status: (string-ascii 20)
+  }
 )
+
+(define-data-var proposal-nonce uint u0)
 
 ;; Public Functions
-(define-public (grant-access (accessor principal))
-  (ok (map-set access-permissions
-    { data-owner: tx-sender, accessor: accessor }
-    { has-access: true }
-  ))
+(define-public (submit-proposal (title (string-ascii 100)) (description (string-ascii 500)))
+  (let
+    ((new-proposal-id (+ (var-get proposal-nonce) u1)))
+    (map-set research-proposals
+      { proposal-id: new-proposal-id }
+      {
+        researcher: tx-sender,
+        title: title,
+        description: description,
+        status: "pending"
+      }
+    )
+    (var-set proposal-nonce new-proposal-id)
+    (ok new-proposal-id)
+  )
 )
 
-(define-public (revoke-access (accessor principal))
-  (ok (map-set access-permissions
-    { data-owner: tx-sender, accessor: accessor }
-    { has-access: false }
-  ))
+(define-public (update-proposal-status (proposal-id uint) (new-status (string-ascii 20)))
+  (let
+    ((proposal (unwrap! (map-get? research-proposals { proposal-id: proposal-id }) ERR_NOT_FOUND)))
+    (asserts! (is-eq tx-sender CONTRACT_OWNER) ERR_NOT_AUTHORIZED)
+    (asserts! (or (is-eq new-status "approved") (is-eq new-status "rejected") (is-eq new-status "completed")) ERR_INVALID_STATUS)
+    (ok (map-set research-proposals
+      { proposal-id: proposal-id }
+      (merge proposal { status: new-status })
+    ))
+  )
 )
 
 ;; Read-only Functions
-(define-read-only (check-access (data-owner principal) (accessor principal))
-  (default-to
-    { has-access: false }
-    (map-get? access-permissions { data-owner: data-owner, accessor: accessor })
+(define-read-only (get-proposal (proposal-id uint))
+  (map-get? research-proposals { proposal-id: proposal-id })
+)
+
+(define-read-only (get-proposal-status (proposal-id uint))
+  (match (map-get? research-proposals { proposal-id: proposal-id })
+    proposal (ok (get status proposal))
+    (err ERR_NOT_FOUND)
   )
 )
 
