@@ -10,6 +10,11 @@ path = 'contracts/access-control.clar'
 clarity_version = 2
 epoch = 2.5
 
+[contracts.compensation]
+path = 'contracts/compensation.clar'
+clarity_version = 2
+epoch = 2.5
+
 [contracts.data-ownership]
 path = 'contracts/data-ownership.clar'
 clarity_version = 2
