@@ -15,3 +15,5 @@ O
 tests/research-proposal.test.ts,b/e/becf88571586545e16f00419ef87ff5bcb7cc80b
 K
 contracts/compensation.clar,b/f/bffb4cf5a5e632d7f08ddc8efe16cb99efe61c72
+J
+tests/compensation.test.ts,e/d/ed56a709644091cbf42d0a2c38ddd04b89e95cc0

@@ -55,6 +55,11 @@ plan:
             path: contracts/access-control.clar
             clarity-version: 2
         - emulated-contract-publish:
+            contract-name: compensation
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/compensation.clar
+            clarity-version: 2
+        - emulated-contract-publish:
             contract-name: data-ownership
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/data-ownership.clar
