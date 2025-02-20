@@ -52,4 +52,3 @@ describe("Access Control Contract", () => {
     expect(result.value.hasAccess).toBe(false)
   })
 })
-
