@@ -5,3 +5,5 @@ M
 contracts/data-ownership.clar,3/7/37d8e27f0c3594f2cbb036d3f0a712e4c5098ea5
 L
 tests/data-ownership.test.ts,7/9/798aa6990a9094ef38144e5e4fa778899b1f8080
+M
+contracts/access-control.clar,6/6/669f44b87120b222b50b4b39670be7edd9bd587e
