@@ -9,3 +9,5 @@ M
 contracts/access-control.clar,6/6/669f44b87120b222b50b4b39670be7edd9bd587e
 L
 tests/access-control.test.ts,1/e/1e94a77628633661eb7a04e44552fb418034370a
+P
+ contracts/research-proposal.clar,c/3/c37393d934845a5de55567a700a84c24468d25ee
